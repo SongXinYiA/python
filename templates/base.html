@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运动计数系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* 设置背景图 */
+        body {
+            background: url('static/picture/background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 页面主体 */
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: rgba(255, 255, 255, 0.3); /* 半透明背景 */
+            box-shadow: none;
+            border-radius: 10px;
+        }
+
+        /* 标题样式 */
+        h1 {
+            font-size: 2.5rem; /* 扩大文字 */
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* 音乐控制按钮 */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .music-control:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+
+        /* 音乐控制按钮文字居中 */
+        #toggleBGM {
+            border: none;
+            background: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景音乐 -->
+    <audio id="bgm" loop autoplay>
+        <source src="{{ url_for('static', filename='sounds/bgm.mp3') }}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- 播放/暂停按钮 -->
+    <div class="music-control">
+        <button id="toggleBGM" onclick="toggleBGM()">暂停背景音乐</button>
+    </div>
+
+    <!-- 页面内容区域 -->
+    {% block content %}
+    {% endblock %}
+
+    <script>
+        // 获取音频元素和按钮
+        const bgm = document.getElementById('bgm');
+        const toggleButton = document.getElementById('toggleBGM');
+
+        // 切换背景音乐播放状态
+        function toggleBGM() {
+            if (bgm.paused) {
+                bgm.play();  // 播放背景音乐
+                toggleButton.textContent = "暂停背景音乐";  // 更新按钮文本
+            } else {
+                bgm.pause();  // 暂停背景音乐
+                toggleButton.textContent = "播放背景音乐";  // 更新按钮文本
+            }
+        }
+    </script>
+</body>
+</html>

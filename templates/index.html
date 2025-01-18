@@ -1,0 +1,15 @@
+{% extends "base.html" %}  <!-- 继承基础模板 -->
+
+{% block content %}  <!-- 页面特有内容区域 -->
+<div class="container">
+    <h1>选择运动检测</h1>
+    <div class="buttons" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; justify-items: center;">
+        <a href="/pushup" class="button" style="padding: 15px 30px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 10px; font-size: 1.25rem; transition: background-color 0.3s; width: 200px; text-align: center;">俯卧撑检测</a>
+        <a href="/jumprope" class="button" style="padding: 15px 30px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 10px; font-size: 1.25rem; transition: background-color 0.3s; width: 200px; text-align: center;">跳绳检测</a>
+        <a href="/squat" class="button" style="padding: 15px 30px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 10px; font-size: 1.25rem; transition: background-color 0.3s; width: 200px; text-align: center;">蹲起检测</a>
+        <a href="/jumpingjack" class="button" style="padding: 15px 30px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 10px; font-size: 1.25rem; transition: background-color 0.3s; width: 200px; text-align: center;">开合跳检测</a>
+    </div>
+</div>
+
+
+{% endblock %}

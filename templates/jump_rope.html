@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1 class="display-4">跳绳检测</h1>
+            <p class="lead">请全身入镜，否则运动无效</p>
+        </div>
+
+        <div class="video-container">
+            <img id="video-stream" class="img-fluid" src="{{ url_for('video_feed', detection_type='jumprope') }}" alt="视频流">
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="/" class="btn-back">返回首页</a>
+    </div>
+
+    <!-- 音效和语音 -->
+    <audio id="count-sound" src="{{ url_for('static', filename='sounds/count.mp3') }}" preload="auto"></audio>
+    <audio id="encouragement-sound" src="{{ url_for('static', filename='sounds/encouragement.mp3') }}" preload="auto"></audio>
+
+    <script>
+        // 用于更新计数和分数的函数
+        function fetchMoveData() {
+            fetch('/get_jumprope_data')  // 后端路由，用于获取最新的跳绳数据
+                .then(response => response.json())
+                .then(data => {
+                    const moveCount = data.move_count;
+                    const score = data.score;
+                    const isValid = data.is_valid;
+
+                    // 更新计数
+                    document.getElementById('move-count').innerText = moveCount;
+
+                    // 更新评分显示
+                    const scoreBox = document.getElementById('score-box');
+                    const scoreText = document.getElementById('score-text');
+                    if (isValid) {
+                        scoreText.innerText = `评分: ${score}`;
+                        scoreBox.style.backgroundColor = 'rgba(0, 128, 0, 0.6)';
+                    } else {
+                        scoreText.innerText = '不合格';
+                        scoreBox.style.backgroundColor = 'rgba(255, 0, 0, 0.6)';
+                    }
+
+                    // 播放计数音效
+                    const sound = document.getElementById('count-sound');
+                    if (sound) sound.play();
+
+                    // 播放语音鼓励（每完成3次合格跳绳）
+                    if (moveCount % 10 === 0 && moveCount > 0) {
+                        const voiceSound = document.getElementById('encouragement-sound');
+                        if (voiceSound) voiceSound.play();
+                    }
+                })
+                .catch(error => console.error('Error fetching move data:', error));
+        }
+
+        // 每秒获取一次后端数据
+        setInterval(fetchMoveData, 1000);  // 每1000ms请求一次数据
+    </script>
+
+    <style>
+        /* 设置背景图 */
+        body {
+            background: url('/static/picture/background.png') no-repeat center center fixed; /* 使用相对路径 */
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 页面主体 */
+        .container {
+            width: 70%; /* 更大的容器宽度 */
+            max-width: 800px; /* 最大宽度 */
+            height: 80vh; /* 最大高度为视口的80% */
+            background-color: rgba(255, 255, 255, 0.6); /* 半透明背景 */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;  /* 保证透明区域底部有边距 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 标题样式 */
+        .header h1 {
+            font-size: 2.5rem; /* 扩大文字 */
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* 描述文本样式 */
+        .header p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        /* 视频容器 */
+        .video-container {
+            margin-bottom: 20px;
+            position: relative;
+            width: 100%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 等比例放大视频 */
+        #video-stream {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;  /* 保持等比例并填充容器 */
+            border-radius: 10px;
+        }
+
+        /* 底部按钮 */
+        .footer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .footer .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.25rem;
+            transition: background-color 0.3s;
+        }
+
+        .footer .btn-back:hover {
+            background-color: #45a049;
+        }
+    </style>
+{% endblock %}

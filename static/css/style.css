@@ -1,0 +1,54 @@
+body {
+    font-family: 'SF Pro Display', 'Arial', sans-serif;
+    text-align: center;
+    background: linear-gradient(to bottom, #e6f7ff, #f5f5f7); /* 从浅灰蓝到浅灰的渐变 */
+    color: #000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    padding: 40px; /* 增加内边距 */
+    background-color: rgba(255, 255, 255, 0.9); /* 半透明白色背景，增加内容的可读性 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px; /* 增加外边距 */
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 40px; /* 增加标题与按钮之间的间距 */
+    color: #000;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* 增加按钮之间的间距 */
+}
+
+.button {
+    display: block;
+    width: 94%;
+    padding: 20px; /* 增加按钮的内边距 */
+    background-color: #dcdcdc; /* 灰色背景 */
+    color:  #333; /* 白色文字 */
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #777; /* 悬停时更深的灰色 */
+}
+
+.button:active {
+    background-color: #666; /* 按下时更深的灰色 */
+}
